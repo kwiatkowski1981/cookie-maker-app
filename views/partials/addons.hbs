@@ -1,0 +1,16 @@
+<h3>Selected parts of cookie: </h3>
+<ul class="addons-list">
+    <li> Base: <strong>{{cookie.base}}</strong> - {{pricify (find-price allBases cookie.base)}} PLN</li>
+    {{#each cookie.addons}}
+        <li>
+            {{#if (not../noDeleteButton)}} {{!--zamiast "if" i bez "not" mozna uzyc unless--}}
+            {{!--{{#unless ../noDeleteButton)}}--}}
+                <a class="btn btn-small" href="/configurator/remove-addon/{{this}}">remove</a>
+            {{/if}}
+            Addon: <span class="bold"> {{this}} </span> - {{pricify (find-price @root.allAddons this)}} PLN {{!--pentla zmienia kontekst dlatego @root. --}}
+        </li>
+    {{/each}}
+</ul>
+
+
+

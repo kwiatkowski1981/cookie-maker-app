@@ -1,0 +1,57 @@
+.cookie-preview {
+    width: 601px;
+    height: 640px;
+    background-image: url('/assets/images/empty-dark.png');
+
+}
+
+.error {
+    border: 1px solid red;
+    background-color: #ea9191;
+    padding: 5px;
+}
+
+.success {
+    border: 1px solid green;
+    background-color: #b8e0b8;
+    padding: 5px;
+}
+
+.btn {
+    background: #b0a797;
+    color: black;
+    text-decoration: none;
+    padding: 5px;
+    border: 1px solid #463412;
+    font-weight: bold;
+    margin: 5px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.btn-small {
+    line-height: 1.5em;
+    padding: 0 5px;
+    margin: 3px;
+}
+
+.btn-disabled {
+    background: #594949;
+    border: 1px solid red;
+    color: #bebdbd;
+    /*filter: blur(2px);*/
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.bold {
+    font-weight: bold;
+}
+.total {
+    color: #0f1486;
+    font-size: larger;
+}
+
+.addons-list {
+    list-style: none;
+}
