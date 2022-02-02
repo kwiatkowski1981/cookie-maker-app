@@ -23,7 +23,7 @@ export class ConfiguratorRouter {
         const {baseName} = req.params as {
             baseName: string;
         };
-        if (!(this.cmApp.data.COOKIE_BASES as Record<string, number>)[baseName]) {
+        if (!(this.cmApp.data.COOKIE_BASES)[baseName]) {
             return this.cmApp.showErrorPage(res,
                 `Oh no! There is no such base as ${baseName}.`);
         }
@@ -38,7 +38,9 @@ export class ConfiguratorRouter {
         const {addonName} = req.params as {
             addonName: string;
         };
-        if (!(this.cmApp.data.COOKIE_ADDONS as Record<string, number>)[addonName]) {
+        // if (!(this.cmApp.data.COOKIE_ADDONS as Record<string, number>)[addonName]) {
+        // otypowałem w pliku "./data/cookies-data"
+        if (!(this.cmApp.data.COOKIE_ADDONS)[addonName]) {
             return this.cmApp.showErrorPage(res,
                 `Oh no! There is no such addon as ${addonName}.`);
         }
