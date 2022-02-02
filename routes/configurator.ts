@@ -1,23 +1,29 @@
-const express = require('express');
+import {Request, Response, Router} from "express";
+import {cookieMakerApp} from "../index";
 
 
-class ConfiguratorRouter {
-    constructor(cmApp) {
-        this.cmApp = cmApp;
-        this.router = express.Router();
+export class ConfiguratorRouter {
+
+    public readonly router: Router = Router();
+
+    constructor(
+        private cmApp: cookieMakerApp
+    ) {
         this.setUpRoutes();
     }
 
-    setUpRoutes() {
+    private setUpRoutes(): void {
         this.router.get('/select-base/:baseName', this.selectBase);
         this.router.get('/select-addon/:addonName', this.selectAddon);
         this.router.get('/remove-addon/:addonName', this.removeAddon);
     }
 
 
-    selectBase = (req, res) => {
-        const {baseName} = req.params;
-        if (!this.cmApp.data.COOKIE_BASES[baseName]) {
+    private selectBase = (req: Request, res: Response): void => {
+        const {baseName} = req.params as {
+            baseName: string;
+        };
+        if (!(this.cmApp.data.COOKIE_BASES as Record<string, number>)[baseName]) {
             return this.cmApp.showErrorPage(res,
                 `Oh no! There is no such base as ${baseName}.`);
         }
@@ -28,9 +34,11 @@ class ConfiguratorRouter {
             });
     };
 
-    selectAddon = (req, res) => {
-        const {addonName} = req.params;
-        if (!this.cmApp.data.COOKIE_ADDONS[addonName]) {
+    private selectAddon = (req: Request, res: Response): void => {
+        const {addonName} = req.params as {
+            addonName: string;
+        };
+        if (!(this.cmApp.data.COOKIE_ADDONS as Record<string, number>)[addonName]) {
             return this.cmApp.showErrorPage(res,
                 `Oh no! There is no such addon as ${addonName}.`);
         }
@@ -47,7 +55,7 @@ class ConfiguratorRouter {
             });
     };
 
-    removeAddon = (req, res) => {
+    private removeAddon = (req: Request, res: Response): void => {
         const {addonName} = req.params;
         const oldAddons = this.cmApp.getAddonsFromReq(req);
         if (!oldAddons.includes(addonName)) {
@@ -63,8 +71,4 @@ class ConfiguratorRouter {
             });
     };
 
-}
-
-module.exports = {
-    ConfiguratorRouter,
 }
