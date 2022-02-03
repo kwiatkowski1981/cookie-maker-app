@@ -9,9 +9,10 @@ import {OrderRouter} from './routes/order';
 import {ConfiguratorRouter} from './routes/configurator';
 import {handlebarsHelpers} from './utils/handlebars-helpers';
 import {COOKIE_BASES, COOKIE_ADDONS} from "./data/cookies-data";
+import {MyRouter} from "./types/my-router";
 
 
-export class cookieMakerApp {
+export class cookieMakerApp implements MyRouter {
     private app: Application;
     private port: number;
     private hostname: string;
@@ -20,11 +21,16 @@ export class cookieMakerApp {
         COOKIE_ADDONS,
     }
 
+    private readonly routers = [HomeRouter, ConfiguratorRouter, OrderRouter];
+
     constructor() {
         this._configureApp();
         this._setRoutes();
         this._run();
     }
+
+    urlPrefix: string;
+    router: express.Router;
 
     private _configureApp(): void {
         this.app = express();
@@ -43,9 +49,14 @@ export class cookieMakerApp {
     }
 
     private _setRoutes(): void {
-        this.app.use('/', new HomeRouter(this).router);
-        this.app.use('/configurator', new ConfiguratorRouter(this).router);
-        this.app.use('/order', new OrderRouter(this).router);
+        for (const router of this.routers) {
+            const obj = new router(this);
+            this.app.use(obj.urlPrefix, obj.router)
+        }
+        // to samo osiągnąłem przy użyciu pętli i dodaniu routerów do tablicy
+        // this.app.use(HomeRouter.urlPrefix, new HomeRouter(this).router);
+        // this.app.use(ConfiguratorRouter.urlPrefix, new ConfiguratorRouter(this).router);
+        // this.app.use(OrderRouter.urlPrefix, new OrderRouter(this).router);
     }
 
     private _run(): void {
