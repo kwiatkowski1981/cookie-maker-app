@@ -1,23 +1,13 @@
-import {Request, Response, Router} from 'express';
-import {cookieMakerApp} from "../index";
+import {Request, Response} from 'express';
+import {get} from "../decorators/rest.decorator";
 import {MyRouter} from "../types/my-router";
+import {BaseRouter} from "./base";
 
-export class OrderRouter implements MyRouter {
+export class OrderRouter extends BaseRouter implements MyRouter {
     public readonly urlPrefix: string = '/order';
-    public readonly router: Router = Router();
-
-    constructor(
-        private cmApp: cookieMakerApp
-    ) {
-        this.setUpRoutes();
-    }
-
-    private setUpRoutes(): void {
-        this.router.get('/summary', this.summary);
-        this.router.get('/thanks', this.thanks);
-    }
 
 
+    @get('/summary')
     private summary = (req: Request, res: Response): void => {
         const {addons, base, sum, allBases, allAddons} = this.cmApp.getCookieSettings(req);
         res.render('order/summary', {
@@ -31,6 +21,8 @@ export class OrderRouter implements MyRouter {
         });
     };
 
+
+    @get('/thanks')
     private thanks = (req: Request, res: Response): void => {
         const {sum} = this.cmApp.getCookieSettings(req);
         res
